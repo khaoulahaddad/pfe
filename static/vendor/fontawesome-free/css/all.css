@@ -24,6 +24,10 @@
 .fa-xs {
   font-size: .75em; }
 
+.product-status-wrap{
+    overflow-y: hidden;
+    width: 100%;
+  }
 .fa-sm {
   font-size: .875em; }
 
