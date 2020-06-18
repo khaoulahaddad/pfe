@@ -1,3 +1,8 @@
+<script> $(document).ready(function() {
+  $('#example').DataTable();
+} );
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +14,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Convergen- Profil</title>
+  <title>Convergen - Product</title>
 
   <!-- Custom fonts for this template-->
   <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -31,8 +36,10 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home">
         <img src="https://media-exp1.licdn.com/dms/image/C560BAQErE-ISRCVmcg/company-logo_200_200/0?e=2159024400&v=beta&t=MB8qyoEgwRxS_9yMdXR5hEgD6wyk2iCHq-ULhdHy_aA">
+
         <div class="sidebar-brand-text mx-3"> Convergen </div>
       </a>
+
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
@@ -50,35 +57,31 @@
       <div class="sidebar-heading">
         Interface
       </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item active">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Profil</span>
-        </a>
-        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Profil:</h6>
-            <a class="collapse-item active" href="/profil/">Profil</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-box-open"></i>
-          <span>Products</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Products:</h6>
-            <a class="collapse-item" href="/allproduct/">All</a>
-            <a class="collapse-item" href="/newproduct/">New</a>
-            <a class="collapse-item" href="/currentproduct/">Current</a>
-            <a class="collapse-item" href="/resolvedproduct/">Resolved</a>
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Profil</span>
+          </a>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header">Custom Profil:</h6>
+              <a class="collapse-item" href="/profil/">Profil</a>
+            </div>
+          </div>
+        </li>
 
+        <li class="nav-item active">
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+              <i class="fas fa-fw fa-box-open"></i>
+              <span>Products</span>
+            </a>
+            <div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+              <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Custom Products:</h6>
+                  <a class="collapse-item"href="/allproduct/">All</a>
+                  <a class="collapse-item" href="/newproduct/">New</a>
+                  <a class="collapse-item" href="/currentproduct/">Current</a>
+                  <a class="collapse-item active" href="/resolvedproduct/">Resolved</a>
           </div>
         </div>
       </li>
@@ -317,58 +320,31 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800" >Edit Profil</h1>
-          <form method="POST" action="/confirm/">
-          <center><img class="img-profile rounded-circle " src="https://media-exp1.licdn.com/dms/image/C560BAQErE-ISRCVmcg/company-logo_200_200/0?e=2159024400&v=beta&t=MB8qyoEgwRxS_9yMdXR5hEgD6wyk2iCHq-ULhdHy_aA">
-          </center> <!-- Password 
-          <div class="parent-div">
-            <button class="btn-upload">Browse</button>
-            <input type="file" name="upfile" />
-          </div> -->
-          
-          <div class="row " class="marge" >
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary" >Account Information</h6>
-              </div>
-                <div class="container" >
-                    <div class="row"><div class="col-lg-6">
-                      <center><label for="firstname"><b>First Name</b></label></div></center>
-                    <div class="col-lg-5">
-                    <input type="text" placeholder="{{resultat.firstname_user}}" name="firstname" maxlength="100" ></div></div>
-                </div>
-                <div class="container">
-                    <div class="row"><div class="col-lg-6">
-                      <center><label for="lastname"><b>Last Name</b></label></div></center>
-                    <div class="col-lg-5">
-                    <input type="text" placeholder="{{resultat.lastname_user}}" name="lastname" maxlength="100" ></div></div>
-                </div>
-
-              <!-- Password -->
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Change Password</h6>
-                </div>
-                <div class="container">
-                      <div class="row"><div class="col-lg-6">
-                        <center><label for="currentpassword"><b>Current Password</b></label></div></center>
-                      <div class="col-lg-6">
-                      <input type="password" name="currentpassword" maxlength="100" ></div></div>
-                </div>
-                <div class="container">
-                    <div class="row"><div class="col-lg-6">
-                      <center><label for="newpassword"><b>New Paasword</b></label></div></center>
-                      <div class="col-lg-6">
-                      <input type="password" name="newpassword" maxlength="100" ></div></div>
-                </div>
-                <div class="container">
-                    <div class="row"><div class="col-lg-6">
-                      <center><label for="confirmpassword"><b>Confirm Password </b></label></div></center>
-                        <div class="col-lg-6">
-                        <input type="password" name="confirmpassword" maxlength="100" ></div></div>
-                </div>
-                <div class="container">
-                      <button type="submit" class="btn btn-primary btn-user btn-block" value="confirm" >Confirm</button>
-                </div>
-              </form>
+          <h1 class="h3 mb-4 text-gray-800">Resolved Products</h1>
+          <table border id="example" class="table table-striped table-bordered">
+      
+            <thead>
+            <td width="10%" align="center"><label class="m-0 font-weight-bold text-primary"><b>Product ID</b></label></td>
+            <td width="10%" align="center"><label class="m-0 font-weight-bold text-primary"><b>Status</b></label></td>
+            <td width="30%" align="center"><label class="m-0 font-weight-bold text-primary"><b>Title</b></label></td>
+            <td width="15%" align="center"><label class="m-0 font-weight-bold text-primary"><b>Commande date</b></label></td>
+            <td width="15%" align="center"><label class="m-0 font-weight-bold text-primary"><b>livraison date</b></label></td>
+            <td width="15%" align="center"><label class="m-0 font-weight-bold text-primary"><b>Closing date</b></label></td>
+            <td width="5%" align="center"><label class="m-0 font-weight-bold text-primary"><b>Details</b></label></td>
+          </thead>
+          {% if products %}
+          <tbody>
+              <tr>{% for product in products %}
+                  <td>{{ product.idProduct}}</td>
+                  <td>{{ product.statut}}</td>
+                  <td>{{ product.adresse}}</td>
+                  <td>{{ product.date_commande}}</td>
+                  <td>{{ product.date_livraison}}</td>
+                  <td>{{ product.date_recu}}</td>
+                  <td></td>
+              </tr>{% endfor %}
+          </tbody>{% endif %}
+        </table>
         </div>
         <!-- /.container-fluid -->
 

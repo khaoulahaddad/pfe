@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.conf import settings
-from suppervision.models import Agent , Task
+from suppervision.models import Agent , Product
 
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
@@ -21,7 +21,8 @@ import random
 
 from django.shortcuts import get_object_or_404
 
-# Create your views here.
+############## Template Login ##############
+
 class LoginView(TemplateView):
 
   template_name = 'front/login.html'
@@ -32,12 +33,20 @@ class LoginView(TemplateView):
     password = request.POST.get('password', False)
     return render(request, self.template_name)
 
+############## Login and Dashboard ##############
+
 def test_cookies(request):
     resultat={}
-    response=TemplateResponse(request, 'index.html',resultat)
+    response=TemplateResponse(request, 'index.html',{'resultat': resultat})
     user=request.COOKIES.get('Your_Cookies')
     if(user):
         resultat["name_user"]=Agent.objects.get(email=user).first_name + ' ' + Agent.objects.get(email=user).last_name
+        resultat["pending_requests"]= Product.objects.filter(date_livraison= None).count()
+        resultat["order"]= Product.objects.count()
+        resultat["money_monthly"]=0
+        resultat["money_annual"]=00
+        #mois elli ana en cours 
+        #année elli en cours
         return response
     else:
         resultat["name_user"]="ok"
@@ -47,13 +56,23 @@ def login(request):
     user = request.POST.get('email',False)
     password = request.POST.get('password',False)
     resultat={}
-    response= TemplateResponse(request, 'index.html',resultat)
+    response= TemplateResponse(request, 'index.html',{'resultat': resultat})
     if(Agent.objects.filter(email=user, code=password)):
         response.set_cookie('Your_Cookies', str(user))
         resultat["name_user"]=Agent.objects.get(email=user, code=password).first_name + ' ' + Agent.objects.get(email=user, code=password).last_name
+        resultat["pending_requests"]= Product.objects.filter(date_livraison= None).count()
+        resultat["order"]= Product.objects.count()
+        resultat["money_monthly"]=0
+        resultat["money_annual"]=00
         return response
     else:
         return HttpResponseRedirect('/')
+
+def connectCarte(request):
+    resultat={}
+    return TemplateResponse(request, 'connectCarte.html',resultat)
+
+############## ForgetPassword ##############
 
 def forgetpassword(request):
     resultat={}
@@ -76,7 +95,7 @@ def search (request):
     message = " We heard that you lost your espace password. Sorry about that! \n But don’t worry! You can use this password to reset your password : " + mdp 
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [mail,]
-   #224abe send_mail( subject, message, email_from, recipient_list )
+    send_mail( subject, message, email_from, recipient_list )
     return TemplateResponse(request, 'email-password.html',resultat)
 
 def teste(request):
@@ -102,11 +121,15 @@ def resetpsw(request):
     else :
         return HttpResponseRedirect('/')
 
+############## EditProfil ##############
+
 def profil(request):
     resultat={}
     user=request.COOKIES.get('Your_Cookies')
-    resultat["name_user"]=Agent.objects.get(email=user).first_name + ' ' + Agent.objects.get(email=user).last_name
-    return TemplateResponse(request, 'profil.html',resultat)
+    resultat["firstname_user"]=Agent.objects.get(email=user).first_name
+    resultat["lastname_user"]=Agent.objects.get(email=user).last_name
+    resultat["name_user"]=resultat["firstname_user"] + ' ' +resultat["lastname_user"]
+    return TemplateResponse(request, 'profil.html',{'resultat' : resultat})
 
 def confirm(request):
     firstname = request.POST.get('firstname',False)
@@ -122,34 +145,49 @@ def confirm(request):
         Agent.objects.filter(id=1).update(code = newpassword)
     return HttpResponseRedirect('/profil')
 
-def alltask(request):
-    tasks = Task.objects.all()
+############## Products ##############
+
+def allproduct(request):
+    products = Product.objects.all()
     resultat={}
     user=request.COOKIES.get('Your_Cookies')
     resultat["name_user"]=Agent.objects.get(email=user).first_name + ' ' + Agent.objects.get(email=user).last_name
-    return render(request,'newtask.html', {'resultat': resultat, 'tasks': tasks})
+    return render(request,'allProduct.html', {'resultat': resultat, 'products': products})
 
-def newtask(request):
-    tasks = Task.objects.filter(statut='nouveau')
+def newproduct(request):
+    products = Product.objects.filter(statut='nouveau')
     resultat={}
     user=request.COOKIES.get('Your_Cookies')
     resultat["name_user"]=Agent.objects.get(email=user).first_name + ' ' + Agent.objects.get(email=user).last_name
-    return render(request,'newtask.html', {'resultat': resultat, 'tasks': tasks})
+    return render(request,'newProduct.html', {'resultat': resultat, 'products': products})
 
-def currenttask(request):
-    tasks = Task.objects.filter(statut='occupe')
+def currentproduct(request):
+    products = Product.objects.filter(statut='occupe')
     resultat={}
     user=request.COOKIES.get('Your_Cookies')
     resultat["name_user"]=Agent.objects.get(email=user).first_name + ' ' + Agent.objects.get(email=user).last_name
-    return render(request,'newtask.html', {'resultat': resultat, 'tasks': tasks})
+    return render(request,'currentProduct.html', {'resultat': resultat, 'products': products})
 
-def resolvedtask(request):
-    tasks = Task.objects.filter(statut='termine')
+def resolvedproduct(request):
+    products = Product.objects.filter(statut='termine')
     resultat={}
     user=request.COOKIES.get('Your_Cookies')
     resultat["name_user"]=Agent.objects.get(email=user).first_name + ' ' + Agent.objects.get(email=user).last_name
-    return render(request,'newtask.html', {'resultat': resultat, 'tasks': tasks})
+    return render(request,'resolvedProduct.html', {'resultat': resultat, 'products': products})
 
+def detailproduct(request):
+    resultat= {}
+    user=request.COOKIES.get('Your_Cookies')
+    resultat["name_user"]=Agent.objects.get(email=user).first_name + ' ' + Agent.objects.get(email=user).last_name
+    return render(request,'detailProduct.html', {'resultat':resultat})
+
+def addproduct(request):
+    resultat= {}
+    user=request.COOKIES.get('Your_Cookies')
+    resultat["name_user"]=Agent.objects.get(email=user).first_name + ' ' + Agent.objects.get(email=user).last_name
+    return render(request,'addProduct.html', {'resultat':resultat})
+
+############## Logout ##############
 
 def logout(request):
     response =HttpResponseRedirect('/') 
